@@ -7,18 +7,36 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<mvc:annotation-driven />
+
+	<mvc:resources location="pdfs" mapping="/pdfs/**" />
+
 	<context:component-scan base-package="com.pluralsight.controller" />
-	
-	<!-- Longhand -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/jsp/"/>
-		<property name="suffix" value=".jsp"/>
+
+	<mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="Language" />
+		</bean>
+	</mvc:interceptors>
+
+	<bean id="LocaleResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en" />
 	</bean>
-	
-	
-	<!-- Shorthand 
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-	p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
-	-->
-	
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+	<!-- Longhand -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+	<!-- Shorthand <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" /> -->
+
 </beans>
